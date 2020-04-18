@@ -30,5 +30,5 @@ class MouseListenerClient:
 
 
 if __name__ == '__main__':
-    client = MouseListenerClient(host = "192.168.100.7", port = 20071)
+    client = MouseListenerClient(host = "localhost", port = 20071)
     client.start()    
