@@ -1,4 +1,5 @@
 from pynput import mouse
+from model import MouseEvent
 import socket
 
 class MouseListenerClient:
@@ -8,18 +9,20 @@ class MouseListenerClient:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
     def start(self):
-        with mouse.Listener(on_move=self.__on_move, on_click=self.__on_click) as listener:
+        with mouse.Listener(on_move=self.__on_move, on_click=self.__on_click, on_scroll=self.__on_scroll) as listener:
             listener.join()
 
     def __on_click(self, x, y, button, pressed):
-        print('{0} at {1}'.format('Pressed' if pressed else 'Released',(x, y)))
-        # if not pressed:
-        #     # Stop listener
-        #     return False
-
+        e = MouseEvent(MouseEvent.Type.ON_CLICK, x, y, button=button, pressed=pressed)
+        self.socket.sendto(MouseEvent.encode(e), (self.host, self.port))
+        
     def __on_move(self, x, y):
-        # print('Pointer moved to {0}'.format((x, y)))
-        self.socket.sendto("{0};{1}".format(x, y).encode(), (self.host, self.port))
+        e = MouseEvent(MouseEvent.Type.ON_MOVE, x, y)
+        self.socket.sendto(MouseEvent.encode(e), (self.host, self.port))
+
+    def __on_scroll(self, x, y, dx, dy):
+        e = MouseEvent(MouseEvent.Type.ON_MOVE, x, y, dx=dx, dy=dy)
+        self.socket.sendto(MouseEvent.encode(e), (self.host, self.port))
 
 
 

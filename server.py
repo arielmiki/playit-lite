@@ -1,4 +1,5 @@
 import socket
+from model import MouseEvent
 
 class MouseListenerServer:
     def __init__(self, host = 'localhost', port = 5050):
@@ -7,7 +8,7 @@ class MouseListenerServer:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
     def __process_data(self, data):
-         print( "Recieve message {0}".format(data.decode()))
+        print(MouseEvent.decode(data))
 
     def start(self):
         self.socket.bind((self.host, self.port))
