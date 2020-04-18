@@ -7,7 +7,7 @@ class MouseListenerServer:
     def __init__(self, host = 'localhost', port = 5050):
         self.port = port
         self.host = host
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.mouse = Controller()
         self.width, self.height = pyautogui.size()
     
@@ -32,6 +32,6 @@ class MouseListenerServer:
 
 
 if __name__ == '__main__':
-    client = MouseListenerServer("0.0.0.0", 20071)
+    client = MouseListenerServer("localhost", 20071)
     client.start() 
 
