@@ -18,6 +18,9 @@ class MouseKeyboardEvent:
         return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
 
 
+    def encode(self):
+        return pickle.dumps(self, pickle.HIGHEST_PROTOCOL)
+
     def __init__(self, type: Type, x = 0, y = 0, button = None, pressed = False, dx = 0, dy = 0, key = None):
         self.type = type
         self.x = x
