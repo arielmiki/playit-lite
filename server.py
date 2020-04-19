@@ -27,10 +27,13 @@ class MouseKeyboardThread(threading.Thread):
         self.conn.close()
     
     def __process_data(self, data):
-        e = MouseKeyboardEvent.decode(data)
+        try:
+            e = MouseKeyboardEvent.decode(data)
+        except:
+            return
         print(e)
         if e.type == MouseKeyboardEvent.Type.MOUSE_ON_MOVE:
-            self.mouse.position = (e.x * self.width, e.y * self.height)
+            self.mouse.position = (e.x * WIDTH, e.y * HEIGHT)
         elif e.type == MouseKeyboardEvent.Type.MOUSE_ON_CLICK:
             if e.pressed:
                 self.mouse.press(e.button)
