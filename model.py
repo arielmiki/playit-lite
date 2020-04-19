@@ -1,11 +1,13 @@
 import enum
 import pickle
 
-class MouseEvent:
+class MouseKeyboardEvent:
     class Type(enum.Enum):
-        ON_MOVE = 0
-        ON_SCROLL = 1
-        ON_CLICK = 2
+        MOUSE_ON_MOVE = 0
+        MOUSE_ON_SCROLL = 1
+        MOUSE_ON_CLICK = 2
+        KEYBOARD_ON_PRESSED = 3
+        KEYBOARD_ON_RELEASED = 4
 
     @staticmethod
     def decode(byte):
@@ -16,7 +18,7 @@ class MouseEvent:
         return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
 
 
-    def __init__(self, type: Type, x, y, button = None, pressed = False, dx = 0, dy = 0):
+    def __init__(self, type: Type, x = 0, y = 0, button = None, pressed = False, dx = 0, dy = 0, key = None):
         self.type = type
         self.x = x
         self.y = y
@@ -24,6 +26,7 @@ class MouseEvent:
         self.pressed = pressed
         self.dx = dx
         self.dy = dy
+        self.key = key
 
     def __repr__(self):
-        return "<type: {0}, x: {1}, y:{2}, button:{3}, pressed:{4}, dx:{5}, dy:{6}>".format(self.type, self.x, self.y, self.button, self.pressed, self.dx, self.dy)    
+        return "{0}: x={1}, y={2}, button={3}, pressed={4}, dx={5}, dy={6}, key={7}>".format(self.type, self.x, self.y, self.button, self.pressed, self.dx, self.dy, self.key)    
